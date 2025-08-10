@@ -53,5 +53,4 @@ class PlantaController extends Controller
     {
         return; //
     }
-
 }

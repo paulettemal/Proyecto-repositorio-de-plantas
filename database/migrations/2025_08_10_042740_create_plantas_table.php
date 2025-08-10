@@ -13,13 +13,6 @@ return new class extends Migration
     {
         Schema::create('plantas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombreComun');
-            $table->string('nombreCientifico');
-            $table->text('descripcion');
-            $table->text('distribucion')->nullable();
-            $table->text('propiedades');
-            $table->text('principiosActivos')->nullable();
-            $table->text('url');
             $table->timestamps();
         });
     }

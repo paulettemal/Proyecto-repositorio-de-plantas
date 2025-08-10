@@ -1,1 +1,1 @@
-# ProyectoRepositorioPlantas
+# Proyecto Repositorio Plantas

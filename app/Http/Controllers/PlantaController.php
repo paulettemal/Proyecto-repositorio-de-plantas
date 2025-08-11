@@ -51,12 +51,8 @@ class PlantaController extends Controller
 
     public function destroy(Planta $planta)
     {
-<<<<<<< HEAD
         $planta -> delete();
         return redirect()->route('plantas.index');
-=======
-        return; //
->>>>>>> 36e706d70e6ca5aa5e1368df37ce74f830737842
     }
 
 }

@@ -11,7 +11,7 @@ class UpdatePlantaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdatePlantaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombreComun' => 'required|string|max:255',
+            'nombreCientifico' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:2550',
+            'distribucion' => 'required|string|max:255',
+            'propiedades' => 'required|string|max:2550',
+            'principiosActivos' => 'required|string|max:2550',
+            'url' => 'required|string|max:255',
         ];
     }
 }

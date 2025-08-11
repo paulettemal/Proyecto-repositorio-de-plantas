@@ -9,4 +9,18 @@ class Planta extends Model
 {
     /** @use HasFactory<\Database\Factories\PlantaFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'nombreComun',
+        'nombreCientifico',
+        'descripcion',
+        'distribucion',
+        'propiedades',
+        'principiosActivos',
+        'url'
+    ];
+    
+
 }
+
+

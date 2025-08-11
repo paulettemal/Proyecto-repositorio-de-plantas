@@ -23,11 +23,8 @@ Route::post('plantas', [PlantaController::class, 'store'])->name('plantas.store'
 Route::get('plantas/edit/{planta}', [PlantaController::class, 'edit'])->name('plantas.edit'); 
 Route::put('plantas/{planta}', [PlantaController::class, 'update'])->name('plantas.update');
 
-<<<<<<< HEAD
 Route::delete('plantas/{planta}',  [PlantaController::class, 'destroy'])->name('plantas.destroy');
 
 
-=======
->>>>>>> 36e706d70e6ca5aa5e1368df37ce74f830737842
 require __DIR__.'/auth.php';
 require __DIR__.'/settings.php';

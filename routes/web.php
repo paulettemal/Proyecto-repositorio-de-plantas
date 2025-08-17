@@ -33,5 +33,5 @@ Route::get('/favoritos', function () {
     return Inertia::render('favoritos');
 });
 
-require _DIR_.'/auth.php';
-require _DIR_.'/settings.php';
+require __DIR__.'/auth.php';
+require __DIR__.'/settings.php';

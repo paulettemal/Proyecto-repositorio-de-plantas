@@ -67,8 +67,17 @@ class PlantaController extends Controller
 
     public function update(UpdatePlantaRequest $request, Planta $planta)
     {
-        $validated = $request-> validated();
-        $planta -> update($validated);
+        $validated = $request->validated();
+        $planta->update($validated);
+        
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $planta,
+                'message' => 'Planta actualizada exitosamente'
+            ]);
+        }
+        
         return redirect()->route('plantas.index');
     }
 

@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { WelcomeProps } from '../interface';
+import { WelcomeProps } from '../Interfaces/Interface';
 
 export default function Cabecera() {
     const pageProps = usePage<WelcomeProps>().props;

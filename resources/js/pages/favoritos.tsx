@@ -1,10 +1,10 @@
 import { Head } from '@inertiajs/react';
-import Pie from './ComponentesWelcolme/Pie';
+import Pie from './Componentes/Footer';
 import { useEffect, useState } from 'react';
-import { Planta } from './interface';
-import Cabecera from './ComponentesWelcolme/Cabecera';
-import ModalPlanta from './ModalPlanta';
-import CartillaPlanta from './CartillaPlanta';
+import { Planta } from './Interfaces/Interface';
+import Cabecera from './Componentes/Cabecera';
+import ModalPlanta from './Componentes/ModalPlanta';
+import CartillaPlanta from './Componentes/CartillaPlanta';
 import { Heart } from 'lucide-react';
 
 export default function Favoritos() {

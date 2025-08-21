@@ -1,13 +1,14 @@
 import { Head } from '@inertiajs/react';
-import Pie from './ComponentesWelcolme/Pie';
-import Cabecera from './ComponentesWelcolme/Cabecera';
-import Cita from './ComponentesWelcolme/Cita';
-import CircularGallery from './ComponentesWelcolme/Stack'
-import Stack from './ComponentesWelcolme/Stack';
+import Pie from './Componentes/Footer';
+import Cabecera from './Componentes/Cabecera';
+import Cita from './Componentes/Cita';
+import CircularGallery from './CompWelcome/Stack'
+import Stack from './CompWelcome/Stack';
 import { PiTreeLight } from "react-icons/pi";
 import { MdFilterList } from "react-icons/md";
 import { IoEarth } from "react-icons/io5";
 import { Link } from '@inertiajs/react';
+import DatosODS from './CompWelcome/DatosODS';
 
 export default function Welcome() {
     return (
@@ -59,9 +60,10 @@ export default function Welcome() {
                                         </p>
                                     </div>
                                     <div className="px-6 pb-6">
-                                        <button className="w-full py-2 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/60 transition-colors">
+                                        <Link href="/explora" className="w-full md:px-10 lg:px-12 py-3 px-6 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded-lg font-medium hover:bg-green-200 dark:hover:bg-green-900/60 transition-colors inline-block text-center">
                                             Explorar
-                                        </button>
+                                        </Link>
+                                        
                                     </div>
                                 </div>
 
@@ -80,9 +82,10 @@ export default function Welcome() {
                                         </p>
                                     </div>
                                     <div className="px-6 pb-6">
-                                        <button className="w-full py-2 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded-lg font-medium hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors">
+                                        <Link href="/explora" className="w-full md:px-10 lg:px-12 py-3 px-6 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded-lg font-medium hover:bg-amber-300 dark:hover:bg-green-900/60 transition-colors inline-block text-center">
                                             Buscar
-                                        </button>
+                                        </Link>
+                                        
                                     </div>
                                 </div>
 
@@ -101,9 +104,9 @@ export default function Welcome() {
                                         </p>
                                     </div>
                                     <div className="px-6 pb-6">
-                                        <button className="w-full py-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-lg font-medium hover:bg-blue-200 dark:hover:bg-blue-900/60 transition-colors">
+                                        <a href="https://www.ambiente.gob.ec/conservacion-de-areas-protegidas-un-hito-historico-en-materia-ambiental/"     target="_blank" className="w-full md:px-10 lg:px-12 py-3 px-6 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-lg font-medium hover:bg-blue-300 dark:hover:bg-green-900/60 transition-colors inline-block text-center">
                                             Aprender
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +117,8 @@ export default function Welcome() {
                         <div className="w-full md:w-1/6 sm:w-1/2 md:mx-auto">
                             <Stack/>
                         </div>
-                        <div className=" w-full sm:w-1/2 md:w-1/2  flex flex-col justify-center">
-                            <div className="bg-green-50  dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-green-600">
+                        <div className=" w-full sm:w-1/7 lg:w-1/4 md:w-1/2  flex flex-col justify-center">
+                            <div className="bg-green-50 dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-green-600">
                                 <h3 className="text-xl font-semibold text-green-700 dark:text-green-300 mb-3">
                                     ¿Sabías qué?
                                 </h3>
@@ -134,23 +137,28 @@ export default function Welcome() {
                         </div>
                     </div>
 
+                    <div className='h-200 md:h-120 pt-0  bg-[#477e39] '>
+                        <DatosODS></DatosODS>
+                    </div>
+
+
+
                     <div>
                         <div className="text-center bg-gray-50 dark:bg-gray-800 p-12">
                             <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
-                                ¿Listo para Explorar?
+                                ¿Listo para explorar?
                             </h2>
                             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto ">
                                 Sumérgete en el fascinante mundo de las plantas medicinales ecuatorianas 
                                 y descubre siglos de sabiduría ancestral.
                             </p>
                             <Link href="/explora" className=" bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors duration-300">
-                                Explorar Plantas
+                                Explorar plantas
                             </Link>
                         </div>
                     </div>
                 </div>
             
-            <Cita/>
             <Pie />
             </div>
         </>

@@ -1,4 +1,4 @@
-import { Planta } from './interface';
+import { Planta } from '../Interfaces/Interface';
 
 export default function ModalPlanta({ 
     planta, 

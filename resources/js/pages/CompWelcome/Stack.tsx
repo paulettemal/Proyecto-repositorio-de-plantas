@@ -52,7 +52,7 @@ interface CardRotateProps {
     export default function Stack({
     randomRotation = false,
     sensitivity = 200,
-    cardDimensions = { width: 350, height: 350 },
+    cardDimensions = { width: 400, height: 400 },
     cardsData = [],
     animationConfig = { stiffness: 260, damping: 20 },
     sendToBackOnClick = false,

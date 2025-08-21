@@ -38,13 +38,6 @@ class PlantaController extends Controller
         return redirect()->route('plantas.index');
     }
     
-    public function store(StorePlantaRequest $request)
-    {
-        $validated = $request->validated();
-        Planta::create($validated);
-        return redirect()->route('plantas.index');
-
-    }
 
     public function show(Planta $planta)
     {

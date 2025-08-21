@@ -25,6 +25,22 @@ class PlantaController extends Controller
     public function store(StorePlantaRequest $request)
     {
         $validated = $request->validated();
+        $planta = Planta::create($validated);
+        
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $planta,
+                'message' => 'Planta creada exitosamente'
+            ], 201);
+        }
+        
+        return redirect()->route('plantas.index');
+    }
+    
+    public function store(StorePlantaRequest $request)
+    {
+        $validated = $request->validated();
         Planta::create($validated);
         return redirect()->route('plantas.index');
 
@@ -32,7 +48,14 @@ class PlantaController extends Controller
 
     public function show(Planta $planta)
     {
-        //
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $planta
+            ]);
+        }
+    
+        return inertia('plantas/show', ['planta' => $planta]);
     }
 
     public function edit(Planta $planta)

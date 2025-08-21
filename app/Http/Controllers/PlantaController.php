@@ -47,9 +47,9 @@ class PlantaController extends Controller
                 'data' => $planta
             ]);
         }
-    
-        return inertia('plantas/show', ['planta' => $planta]);
+        return inertia('plantas/show', ['planta' => $planta]);
     }
+
 
     public function edit(Planta $planta)
     {

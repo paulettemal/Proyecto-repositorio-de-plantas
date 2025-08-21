@@ -51,7 +51,15 @@ class PlantaController extends Controller
 
     public function destroy(Planta $planta)
     {
-        $planta -> delete();
+        $planta->delete();
+        
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Planta eliminada exitosamente'
+            ]);
+        }
+        
         return redirect()->route('plantas.index');
     }
 

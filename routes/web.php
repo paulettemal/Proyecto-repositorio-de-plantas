@@ -33,5 +33,7 @@ Route::get('/favoritos', function () {
     return Inertia::render('favoritos');
 });
 
+Route::get('plantas/{planta}', [PlantaController::class, 'show'])->name('plantas.show');
+
 require __DIR__.'/auth.php';
 require __DIR__.'/settings.php';

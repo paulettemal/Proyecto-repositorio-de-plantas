@@ -15,7 +15,7 @@ export default function Explora() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedPlanta, setSelectedPlanta] = useState<Planta | null>(null);
     const [filterType, setFilterType] = useState<'all' | 'name' | 'property'>('all');
-
+    
     useEffect(() => {
         setIsLoading(true);
         fetch('/api/plantas')
@@ -80,6 +80,7 @@ export default function Explora() {
             <div className="bg-[#477e39] h-[70px]">
                 <Cabecera />
             </div>
+            
             <div className='bg-white min-h-screen flex flex-col'>
                 <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto">

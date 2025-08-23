@@ -20,7 +20,7 @@ export default function Cabecera() {
                             Favoritos
                         </Link>
                         {auth?.user ? (
-                            <Link href={route('dashboard')} className="text-[14px] inline-flex items-center px-4 md:px-2 sm:px-1 py-2 font-medium text-white hover:text-green-900 dark:hover:text-green-100">
+                            <Link href={route('plantas.index')} className="text-[14px] inline-flex items-center px-4 md:px-2 sm:px-1 py-2 font-medium text-white hover:text-green-900 dark:hover:text-green-100">
                                 Dashboard
                             </Link>
                         ) : (

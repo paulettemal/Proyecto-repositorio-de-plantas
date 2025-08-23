@@ -113,27 +113,25 @@ export default function Welcome() {
                         </div>
                     </div>
 
-                    <div className="pt-10 bg-gradient-to-b from-green-50 to-white pb-20 flex flex-col justify-center md:flex-row md:justify-center sm:justify-center">
-                        <div className="w-full md:w-1/6 sm:w-1/2 md:mx-auto">
+                    <div className="pt-10 bg-gradient-to-b from-green-50 to-white pb-20 flex flex-col items-center gap-8 lg:flex-row lg:justify-center lg:items-start lg:gap-12">
+                        <div className="w-full max-w-sm flex justify-center lg:w-auto lg:flex-shrink-0">
                             <Stack/>
                         </div>
-                        <div className=" w-full sm:w-1/7 lg:w-1/4 md:w-1/2  flex flex-col justify-center">
+                        <div className="w-full max-w-md px-4 lg:max-w-lg lg:px-0">
                             <div className="bg-green-50 dark:bg-gray-800 p-6 rounded-lg shadow-md border-l-4 border-green-600">
                                 <h3 className="text-xl font-semibold text-green-700 dark:text-green-300 mb-3">
                                     ¿Sabías qué?
                                 </h3>
-                                <p className="text-gray-700 dark:text-gray-300 ">
+                                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                                     <span className="font-medium">El 40% de las plantas medicinales de Ecuador son endémicas</span>, 
-                                        es decir, ¡solo crecen aquí! Conoce cómo preservar este patrimonio único.
-                                        Ecuador es uno de los 17 países megadiversos del mundo, albergando el 10% de todas las especies 
-                                        de plantas del planeta en solo el 0.2% de la superficie terrestre.
+                                    es decir, ¡solo crecen aquí! Conoce cómo preservar este patrimonio único.
+                                    Ecuador es uno de los 17 países megadiversos del mundo, albergando el 10% de todas las especies 
+                                    de plantas del planeta en solo el 0.2% de la superficie terrestre.
                                 </p>
-                                <a href="https://ddrn.dk/wp-content/uploads/2018/01/LIBRO_ROJO_de_las_plantas_endemicas_del-1.pdf"  target="_blank" rel="noopener noreferrer" className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors inline-block" >
+                                <Link href="/explora" className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors inline-block">
                                     Descubre más
-                                </a>
+                                </Link>
                             </div>
-                        </div>
-                        <div className='md:w-1/10 '>
                         </div>
                     </div>
 

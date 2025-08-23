@@ -116,7 +116,7 @@ export default function Explora() {
                                     </div>
                                 </div>
                                 <div className="mt-2 text-sm text-gray-500 text-left">
-                                    {filterType === 'all' && 'Buscando en todos los campos'}
+                                    {filterType === 'all' && 'Buscando en campos de nombres, distribución, propiedades y principios activos'}
                                     {filterType === 'name' && 'Buscando solo en nombres (común y científico)'}
                                     {filterType === 'property' && 'Buscando solo en propiedades y principios activos'}
                                 </div>

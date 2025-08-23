@@ -11,9 +11,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('plantas', function () {
+    Route::get('plantas.index', function () {
         return Inertia::render('Plantas');
-    })->name('plantas');
+    })->name('plantas.index');
 });
 
 Route::get('plantas', [PlantaController::class, 'Index'])->name('plantas.index');

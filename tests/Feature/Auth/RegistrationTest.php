@@ -15,5 +15,5 @@ test('new users can register', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('plantas', absolute: false));
+    $response->assertRedirect(route('plantas.index', absolute: false));
 });

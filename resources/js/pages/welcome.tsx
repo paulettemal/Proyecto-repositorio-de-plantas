@@ -1,8 +1,5 @@
-import { Head } from '@inertiajs/react';
 import Pie from './Componentes/Footer';
 import Cabecera from './Componentes/Cabecera';
-import Cita from './Componentes/Cita';
-import CircularGallery from './CompWelcome/Stack'
 import Stack from './CompWelcome/Stack';
 import { PiTreeLight } from "react-icons/pi";
 import { MdFilterList } from "react-icons/md";

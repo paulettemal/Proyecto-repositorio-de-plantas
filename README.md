@@ -59,7 +59,6 @@ cd Proyecto-repositorio-de-plantas
 
 ```bash
 composer install
-npm i
 ```
 
 3. Configura las variables de entorno
@@ -75,15 +74,23 @@ php artisan key:generate
 php artisan serve
 ```
 
-5. Inicia el servidor de desarrollo
+### Configuración del Frontend
+
+1. Instala la dependencia
+
+```bash
+npm i
+```
+2. Para iniciar aplicación
 
 ```bash
 npm run dev
 ```
 
+
 ## Uso
 
-### Para Usuarios
+### Para usuarios
 
 - **Explorar catálogo**: Navega por las plantas en la página principal
 - **Buscar plantas**: Utiliza los filtros por nombre o propiedades

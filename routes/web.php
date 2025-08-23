@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('welcome');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -27,10 +27,10 @@ Route::delete('plantas/{planta}',  [PlantaController::class, 'destroy'])->name('
 Route::get('/api/plantas', [PlantaController::class, 'publicIndex']);
 
 Route::get('/explora', function () {
-    return Inertia::render('Explora'); 
+    return Inertia::render('explora'); 
 });
 Route::get('/favoritos', function () {
-    return Inertia::render('Favoritos');
+    return Inertia::render('favoritos');
 });
 
 Route::get('plantas/{planta}', [PlantaController::class, 'show'])->name('plantas.show');

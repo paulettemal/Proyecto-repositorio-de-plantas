@@ -216,6 +216,8 @@ Proyecto-repositorio-de-plantas/
 - ✅ **Navegación de Regreso**: Botones para volver al inicio desde login y registro
 - ✅ **Panel de Usuario**: Panel izquierdo verde con menú desplegable para cerrar sesión
 - ✅ **Diseño Mejorado**: Fondo blanco con mejor legibilidad y colores optimizados
+- ✅ **Layout Compartido**: Panel izquierdo consistente en todas las páginas de plantas
+- ✅ **Legibilidad de Formularios**: Texto negro en campos de entrada con fondo blanco
 
 **Páginas Funcionales:**
 - ✅ **Plantas (CRUD)**: Gestión completa de plantas con tabla profesional

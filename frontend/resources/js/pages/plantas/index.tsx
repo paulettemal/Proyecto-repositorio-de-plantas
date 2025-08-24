@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
-import { plantaService, authService } from '@/services/api';
+import { plantaService } from '@/services/api';
 import { Planta } from '../Interfaces/Interface';
 import Eliminar from './eliminar';
 import {
@@ -14,6 +14,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button';
+import PlantasLayout from '@/components/PlantasLayout';
 
 export default function Index() {
     const navigate = useNavigate();
@@ -23,25 +24,10 @@ export default function Index() {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [selectedPlant, setSelectedPlant] = useState<Planta | null>(null);
     const [processing, setProcessing] = useState(false);
-    const [userMenuOpen, setUserMenuOpen] = useState(false);
 
     useEffect(() => {
         fetchPlantas();
     }, []);
-
-    // Cerrar menú del usuario cuando se haga clic fuera
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (userMenuOpen) {
-                setUserMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [userMenuOpen]);
 
     const fetchPlantas = async () => {
         try {
@@ -90,22 +76,6 @@ export default function Index() {
         setSelectedPlant(null);
     };
 
-    const handleLogout = async () => {
-        try {
-            setProcessing(true);
-            await authService.logout();
-            localStorage.removeItem('token');
-            navigate('/');
-        } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-            // Aún así, limpiar el token y redirigir
-            localStorage.removeItem('token');
-            navigate('/');
-        } finally {
-            setProcessing(false);
-        }
-    };
-
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
@@ -115,7 +85,7 @@ export default function Index() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex">
+        <PlantasLayout title="Plantas" showCreateButton={true}>
             <Helmet>
                 <title>Plantas</title>
             </Helmet>
@@ -127,73 +97,6 @@ export default function Index() {
                 plantaNombre={selectedPlant?.nombreComun || ''} 
                 loading={processing} 
             />
-
-            {/* Panel izquierdo verde */}
-            <div className="w-64 bg-emerald-600 text-white flex flex-col">
-                <div className="p-6">
-                    <h1 className="text-2xl font-bold text-white">Platform</h1>
-                </div>
-                
-                {/* Navegación activa */}
-                <div className="px-6 py-3">
-                    <div className="bg-white rounded-lg shadow-sm p-3 flex items-center space-x-3">
-                        <div className="w-5 h-5 bg-emerald-600 rounded"></div>
-                        <span className="text-black font-medium">Plantas</span>
-                    </div>
-                </div>
-                
-                {/* Espacio flexible para empujar el usuario hacia abajo */}
-                <div className="flex-1"></div>
-                
-                {/* Panel del usuario */}
-                <div className="p-6 relative">
-                    <div 
-                        className="flex items-center space-x-3 cursor-pointer hover:bg-emerald-700 rounded-lg p-2 transition-colors"
-                        onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    >
-                        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                            <span className="text-emerald-600 font-bold text-sm">A</span>
-                        </div>
-                        <span className="text-white">Administrador</span>
-                        <svg className={`w-4 h-4 text-white transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-                    
-                    {/* Menú desplegable del usuario */}
-                    {userMenuOpen && (
-                        <div className="absolute bottom-full left-6 mb-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
-                            <div className="p-3">
-                                <button
-                                    onClick={handleLogout}
-                                    disabled={processing}
-                                    className="w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors flex items-center space-x-2"
-                                >
-                                    <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                    </svg>
-                                    <span>Cerrar Sesión</span>
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Contenido principal */}
-            <div className="flex-1 p-6">
-                <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-6 h-6 bg-emerald-600 rounded"></div>
-                        <h2 className="text-2xl font-bold text-gray-900">Plantas</h2>
-                    </div>
-                    
-                    <Link to="/plantas/create">
-                        <Button className="rounded-2xl p-4 w-40 bg-emerald-900 text-white hover:bg-emerald-800 transition-colors">
-                            Crear planta
-                        </Button>
-                    </Link>
-                </div>
                 
                 {plantas.length > 0 ? (
                     <div className="w-full overflow-hidden rounded-lg border border-gray-200 shadow-sm">
@@ -264,7 +167,6 @@ export default function Index() {
                         </Link>
                     </div>
                 )}
-            </div>
-        </div>
+        </PlantasLayout>
     );
 }

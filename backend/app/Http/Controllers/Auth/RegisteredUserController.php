@@ -46,6 +46,46 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        if ($request->expectsJson()) {
+            $token = $user->createToken('api-token')->plainTextToken;
+            
+            return response()->json([
+                'success' => true,
+                'token' => $token,
+                'user' => $user,
+                'message' => 'Usuario registrado exitosamente'
+            ], 201);
+        }
+
         return redirect()->intended(route('plantas.index', absolute: false));
+    }
+
+    /**
+     * Handle API registration request.
+     */
+    public function apiRegister(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'token' => $token,
+            'user' => $user,
+            'message' => 'Usuario registrado exitosamente'
+        ], 201);
     }
 }

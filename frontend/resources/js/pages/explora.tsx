@@ -6,6 +6,7 @@ import Cabecera from './Componentes/Cabecera';
 import ModalPlanta from './Componentes/ModalPlanta';
 import CartillaPlanta from './Componentes/CartillaPlanta';
 import { CiSearch } from "react-icons/ci";
+import { plantaService } from '@/services/api';
 
 export default function Explora() {
     const [plantas, setPlantas] = useState<Planta[]>([]);
@@ -17,23 +18,29 @@ export default function Explora() {
     const [filterType, setFilterType] = useState<'all' | 'name' | 'property'>('all');
     
     useEffect(() => {
-        setIsLoading(true);
-        fetch('/api/plantas')
-            .then(response => {
-                if (!response.ok) throw new Error('Error al cargar las plantas');
-                return response.json();
-            })
-            .then(data => {
-                console.log('Datos recibidos:', data);
-                setPlantas(data.plantas);
-                setFilteredPlantas(data.plantas);
-                setIsLoading(false);
-            })
-            .catch(error => {
+        const fetchPlantas = async () => {
+            try {
+                setIsLoading(true);
+                const response = await plantaService.getAll();
+                
+                // La API devuelve {success: true, data: [...]}
+                if (response.data.success && Array.isArray(response.data.data)) {
+                    console.log('Datos recibidos:', response.data.data);
+                    setPlantas(response.data.data);
+                    setFilteredPlantas(response.data.data);
+                } else {
+                    console.error('Formato de respuesta inesperado:', response.data);
+                    setError('Formato de respuesta inesperado de la API');
+                }
+            } catch (error) {
                 console.error('Error al cargar plantas:', error);
                 setError('No se pudieron cargar las plantas');
+            } finally {
                 setIsLoading(false);
-            });
+            }
+        };
+
+        fetchPlantas();
     }, []);
 
     useEffect(() => {

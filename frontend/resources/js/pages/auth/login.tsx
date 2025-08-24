@@ -21,17 +21,28 @@ export default function Login() {
         setErrors({});
 
         try {
+            console.log('Intentando login con:', { email: formData.email });
             const response = await authService.login({
                 email: formData.email,
                 password: formData.password,
             });
             
+            console.log('Respuesta del login:', response.data);
+            
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
-                setStatus('Login exitoso');
-                navigate('/');
+                setStatus('Login exitoso - Redirigiendo a plantas...');
+                console.log('Token guardado, redirigiendo a /plantas');
+                // Redirigir a la página de plantas después del login
+                setTimeout(() => {
+                    navigate('/plantas');
+                }, 1000);
+            } else {
+                console.error('No se recibió token en la respuesta');
+                setErrors({ general: 'Error: No se recibió token de autenticación' });
             }
         } catch (error: any) {
+            console.error('Error en login:', error);
             setErrors(error.response?.data?.errors || { general: 'Error al iniciar sesión' });
         } finally {
             setProcessing(false);
@@ -150,6 +161,13 @@ export default function Login() {
                             className="text-green-600 hover:text-green-500 text-sm"
                         >
                             ¿Olvidaste tu contraseña?
+                        </Link>
+                        <br />
+                        <Link 
+                            to="/" 
+                            className="text-gray-600 hover:text-gray-500 text-sm"
+                        >
+                            ← Volver al inicio
                         </Link>
                     </div>
                 </form>

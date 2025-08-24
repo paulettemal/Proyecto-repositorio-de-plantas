@@ -7,7 +7,7 @@ export interface Planta {
     distribucion?: string;
     descripcion?: string;
     propiedades?: string;
-    principiosActivos: string[];
+    principiosActivos?: string;
     url?: string;
 }
 

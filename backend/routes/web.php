@@ -24,7 +24,7 @@ Route::put('plantas/{planta}', [PlantaController::class, 'update'])->name('plant
 Route::delete('plantas/{planta}',  [PlantaController::class, 'destroy'])->name('plantas.destroy');
 
 
-Route::get('/api/plantas', [PlantaController::class, 'publicIndex']);
+
 
 Route::get('/explora', function () {
     return Inertia::render('explora'); 

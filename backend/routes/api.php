@@ -18,8 +18,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 */
 
 // Rutas públicas
-Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/register', [RegisteredUserController::class, 'apiRegister']);
+Route::post('/login', [AuthenticatedSessionController::class, 'apiLogin']);
 
 // Rutas para plantas públicas
 Route::get('/plantas', [PlantaController::class, 'apiIndex']);
@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::post('/logout', [AuthenticatedSessionController::class, 'apiLogout']);
     
     // CRUD de plantas para usuarios autenticados
     Route::post('/plantas', [PlantaController::class, 'store']);

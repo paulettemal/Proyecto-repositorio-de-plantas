@@ -16,7 +16,6 @@ La plataforma ofrece un catálogo digital interactivo que permite a los usuarios
 - **Información detallada**: Datos botánicos, distribución, usos tradicionales y principios activos
 - **Galería visual**: Imágenes de alta calidad para facilitar la identificación
 - **Enfoque sostenible**: Promoviendo la conservación y el cultivo responsable
-- **Rendimiento optimizado**: Experiencia de usuario fluida y tiempos de carga rápidos
 
 ## Tecnologías Utilizadas
 
@@ -37,89 +36,110 @@ La plataforma ofrece un catálogo digital interactivo que permite a los usuarios
 - **Git** para control de versiones
 - **Postman** para testing de API
 
-## Instalación
+## 🚀 Instalación y Configuración
 
-### Prerrequisitos
+### 📋 Prerrequisitos
 
-- Node.js (v18 o superior)
-- PHP (v8.2 o superior)
-- Composer
-- SQLite
+- **Node.js**: v18 o superior
+- **PHP**: v8.2 o superior
+- **Composer**: Para dependencias de PHP
+- **SQLite**: Base de datos incluida
+- **Git**: Para clonar el repositorio
 
-### Configuración del Backend (Laravel API)
+### 🔧 Configuración del Backend (Laravel API)
 
-1. Navega al directorio backend
-
+#### **Paso 1: Clonar y Navegar**
 ```bash
-cd backend
+git clone <tu-repositorio>
+cd Proyecto-repositorio-de-plantas/backend
 ```
 
-2. Instala las dependencias de PHP
-
+#### **Paso 2: Instalar Dependencias**
 ```bash
 composer install
 ```
 
-3. Configura las variables de entorno
-
+#### **Paso 3: Configurar Variables de Entorno**
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-4. Ejecuta las migraciones y seeders
-
+#### **Paso 4: Configurar Base de Datos**
 ```bash
+# Ejecutar migraciones
 php artisan migrate
+
+# Ejecutar seeders para datos de prueba
 php artisan db:seed --class=PlantaSeeder
+php artisan db:seed --class=UserSeeder
 ```
 
-5. Inicia el servidor de desarrollo
-
+#### **Paso 5: Iniciar Servidor Backend**
 ```bash
 php artisan serve
 ```
 
-El backend estará disponible en `http://localhost:8000`
+**✅ Backend funcionando en:** `http://localhost:8000`
 
-### Configuración del Frontend (React)
+### ⚛️ Configuración del Frontend (React)
 
-1. Navega al directorio frontend
-
+#### **Paso 1: Navegar al Directorio Frontend**
 ```bash
-cd frontend
+cd ../frontend
 ```
 
-2. Instala las dependencias de Node.js
-
+#### **Paso 2: Instalar Dependencias**
 ```bash
 npm install
 ```
 
-3. Inicia la aplicación de desarrollo
-
+#### **Paso 3: Iniciar Aplicación de Desarrollo**
 ```bash
 npm run dev
 ```
 
-El frontend estará disponible en `http://localhost:3000`
+**✅ Frontend funcionando en:** `http://localhost:3000`
 
-## Estructura del Proyecto
+### 🔐 Usuario de Prueba
+
+Para probar la aplicación completa:
+
+- **Email**: `test@example.com`
+- **Password**: `password123`
+
+### 📱 Acceso a la Aplicación
+
+1. **Abrir navegador** en `http://localhost:3000`
+2. **Hacer login** con las credenciales de prueba
+3. **Navegar** a la sección de Plantas
+4. **Explorar** las funcionalidades CRUD
+
+## 📁 Estructura del Proyecto
 
 ```
 Proyecto-repositorio-de-plantas/
-├── backend/                 # Laravel API
-│   ├── app/                # Controladores y modelos
-│   ├── routes/             # Rutas de la API
-│   ├── database/           # Migraciones y seeders
-│   └── config/             # Configuración de Laravel
-├── frontend/               # React Application
-│   ├── resources/js/       # Componentes React
-│   ├── resources/css/      # Estilos CSS
-│   └── services/           # Servicios de API
-└── README.md               # Este archivo
+├── backend/                    # Laravel API
+│   ├── app/                   # Controladores y modelos
+│   │   ├── Http/Controllers/  # Controladores de la API
+│   │   ├── Models/            # Modelos Eloquent
+│   │   └── Policies/          # Políticas de autorización
+│   ├── routes/                # Rutas de la API
+│   ├── database/              # Migraciones y seeders
+│   ├── config/                # Configuración de Laravel
+│   └── bootstrap/             # Bootstrap de la aplicación
+├── frontend/                  # React Application
+│   ├── resources/js/          # Componentes React
+│   │   ├── components/        # Componentes UI reutilizables
+│   │   ├── pages/             # Páginas de la aplicación
+│   │   ├── services/          # Servicios de API
+│   │   └── types/             # Definiciones de TypeScript
+│   ├── resources/css/         # Estilos CSS
+│   └── public/                # Archivos públicos
+├── composer.json              # Dependencias PHP
+├── package.json               # Dependencias Node.js
+└── README.md                  # Este archivo
 ```
-
 
 ## API Endpoints
 
@@ -150,86 +170,44 @@ Proyecto-repositorio-de-plantas/
 - **Email**: `test@example.com`
 - **Password**: `password123`
 
-## Solución de Problemas
 
-### Problema: Login no redirige a plantas.index
+### **Testing de la API**
+```bash
+# Probar endpoints de autenticación
+curl -X POST http://localhost:8000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test User","email":"test2@example.com","password":"password123","password_confirmation":"password123"}'
 
-**Síntomas:**
-- El login es exitoso pero no redirige a la página de plantas
-- Se queda en la página de login
+# Probar login
+curl -X POST http://localhost:8000/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
 
-**Solución:**
-1. Verifica que ambos servidores estén corriendo:
-   - Backend: `http://localhost:8000`
-   - Frontend: `http://localhost:3000`
+# Probar endpoint de plantas (público)
+curl http://localhost:8000/api/plantas
 
-2. Abre la consola del navegador (F12) y revisa los logs durante el login
+# Probar endpoint protegido (con token)
+curl -H "Authorization: Bearer TU_TOKEN_AQUI" \
+  http://localhost:8000/api/user
+```
 
-3. Verifica que el token se esté guardando en localStorage
+## 📚 Recursos Adicionales
 
-4. Si persiste el problema, usa el archivo `test_api.html` para probar la API directamente
+### **Documentación Oficial**
+- [Laravel 10.x](https://laravel.com/docs/10.x)
+- [React 18](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [TypeScript](https://www.typescriptlang.org/docs/)
 
-### Problema: Error "plantas.map is not a function"
+### **Herramientas de Desarrollo**
+- **Postman**: Testing de API
+- **Laravel Telescope**: Debugging de Laravel
+- **React Developer Tools**: Debugging de React
+- **Vite DevTools**: Debugging de Vite
 
-**Síntomas:**
-- Error en la consola: `plantas.map is not a function`
-- La página de plantas no carga correctamente
-
-**Causa:**
-- Conflicto de rutas entre `web.php` y `api.php`
-- La API estaba devolviendo formato incorrecto
-
-**Solución Aplicada:**
-- ✅ Eliminada ruta duplicada en `web.php`
-- ✅ API ahora devuelve formato correcto: `{"success": true, "data": [...]}`
-- ✅ Frontend actualizado para manejar el formato correcto
-
-### Mejoras Implementadas en la Vista de Plantas
-
-**Nuevas Características:**
-- ✅ Tabla mejorada con diseño profesional usando componentes UI
-- ✅ Modal de confirmación para eliminación de plantas
-- ✅ Manejo de imágenes con fallback para URLs inválidas
-- ✅ Botones de acción estilizados (Editar/Eliminar)
-- ✅ Diseño responsivo con scroll horizontal
-- ✅ Colores y estilos consistentes con el tema del proyecto
-
-**Componentes Agregados:**
-- `Eliminar.tsx` - Modal de confirmación para eliminación
-- `create.tsx` - Formulario para crear nuevas plantas
-- `edit.tsx` - Formulario para editar plantas existentes
-- Componentes UI de tabla, botones, inputs y textareas
-- Manejo mejorado de estados y errores
-
-**Formularios Funcionales:**
-- ✅ **Crear Planta**: Formulario completo con validación y envío a API
-- ✅ **Editar Planta**: Carga datos existentes y permite modificación
-- ✅ **Validación en tiempo real**: Errores se limpian al escribir
-- ✅ **Manejo de estados**: Loading, processing y error states
-- ✅ **Navegación**: Redirección automática después de operaciones exitosas
-
-**Funcionalidades de Usuario:**
-- ✅ **Cerrar Sesión**: Botón de logout en la página de plantas
-- ✅ **Limpieza de Token**: Elimina token del localStorage al cerrar sesión
-- ✅ **Redirección Segura**: Vuelve a la página de inicio (welcome) después del logout
-- ✅ **Manejo de Errores**: Continúa con el logout incluso si la API falla
-- ✅ **Navegación de Regreso**: Botones para volver al inicio desde login y registro
-- ✅ **Panel de Usuario**: Panel izquierdo verde con menú desplegable para cerrar sesión
-- ✅ **Diseño Mejorado**: Fondo blanco con mejor legibilidad y colores optimizados
-- ✅ **Layout Compartido**: Panel izquierdo consistente en todas las páginas de plantas
-- ✅ **Legibilidad de Formularios**: Texto negro en campos de entrada con fondo blanco
-
-**Páginas Funcionales:**
-- ✅ **Plantas (CRUD)**: Gestión completa de plantas con tabla profesional
-- ✅ **Explora**: Catálogo público de plantas con búsqueda y filtros
-- ✅ **Crear/Editar**: Formularios funcionales para gestión de plantas
-- ✅ **Login/Logout**: Autenticación completa con redirección automática
-
-### Archivo de Prueba
-Se incluye `test_api.html` para probar la API directamente desde el navegador sin el frontend React.
-
-## Equipo de Desarrollo
+## 👥 Equipo de Desarrollo
 
 - **Isaac Criollo** - Frontend (Catálogo) & Backend (CRUD - create)
 - **Joel Guamaní** - Filtros & Backend (CRUD - edit)
 - **Paulette Maldonado** - Detalles de especie & Backend (CRUD - delete)
+

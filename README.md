@@ -65,16 +65,6 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-#### **Paso 4: Configurar Base de Datos**
-```bash
-# Ejecutar migraciones
-php artisan migrate
-
-# Ejecutar seeders para datos de prueba
-php artisan db:seed --class=PlantaSeeder
-php artisan db:seed --class=UserSeeder
-```
-
 #### **Paso 5: Iniciar Servidor Backend**
 ```bash
 php artisan serve

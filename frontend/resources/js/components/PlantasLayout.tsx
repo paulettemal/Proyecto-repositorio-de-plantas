@@ -16,7 +16,16 @@ export default function PlantasLayout({ children, title, showCreateButton = fals
     // Cerrar menú del usuario cuando se haga clic fuera
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (userMenuOpen) {
+            // Verificar si el clic fue en el menú del usuario o en sus elementos
+            const target = event.target as Element;
+            const userMenu = document.querySelector('[data-user-menu]');
+            const userMenuButton = document.querySelector('[data-user-menu-button]');
+            
+            if (userMenuOpen && 
+                userMenu && 
+                !userMenu.contains(target) && 
+                userMenuButton && 
+                !userMenuButton.contains(target)) {
                 setUserMenuOpen(false);
             }
         };
@@ -28,15 +37,20 @@ export default function PlantasLayout({ children, title, showCreateButton = fals
     }, [userMenuOpen]);
 
     const handleLogout = async () => {
+        console.log('Iniciando logout...');
         try {
             setProcessing(true);
+            console.log('Llamando a authService.logout()...');
             await authService.logout();
+            console.log('Logout exitoso, limpiando token...');
             localStorage.removeItem('token');
+            console.log('Redirigiendo a /welcome...');
             navigate('/');
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
             // Aún así, limpiar el token y redirigir
             localStorage.removeItem('token');
+            console.log('Redirigiendo a /welcome después del error...');
             navigate('/');
         } finally {
             setProcessing(false);
@@ -65,6 +79,7 @@ export default function PlantasLayout({ children, title, showCreateButton = fals
                 {/* Panel del usuario */}
                 <div className="p-6 relative">
                     <div 
+                        data-user-menu-button
                         className="flex items-center space-x-3 cursor-pointer hover:bg-emerald-700 rounded-lg p-2 transition-colors"
                         onClick={() => setUserMenuOpen(!userMenuOpen)}
                     >
@@ -79,10 +94,14 @@ export default function PlantasLayout({ children, title, showCreateButton = fals
                     
                     {/* Menú desplegable del usuario */}
                     {userMenuOpen && (
-                        <div className="absolute bottom-full left-6 mb-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                        <div data-user-menu className="absolute bottom-full left-6 mb-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
                             <div className="p-3">
                                 <button
-                                    onClick={handleLogout}
+                                    onClick={(e) => {
+                                        console.log('Botón de logout clickeado!');
+                                        e.stopPropagation();
+                                        handleLogout();
+                                    }}
                                     disabled={processing}
                                     className="w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors flex items-center space-x-2"
                                 >

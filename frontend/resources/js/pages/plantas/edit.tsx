@@ -1,0 +1,252 @@
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate, Link, useParams } from 'react-router-dom';
+import { plantaService } from '@/services/api';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from "@/components/ui/textarea";
+import { Planta } from '../Interfaces/Interface';
+import PlantasLayout from '@/components/PlantasLayout';
+
+export default function Edit() {
+    const navigate = useNavigate();
+    const { id } = useParams<{ id: string }>();
+    const [planta, setPlanta] = useState<Planta | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [formData, setFormData] = useState({
+        nombreComun: '',
+        nombreCientifico: '',
+        descripcion: '',
+        distribucion: '',
+        propiedades: '',
+        principiosActivos: '',
+        url: ''
+    });
+    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+    useEffect(() => {
+        if (id) {
+            fetchPlanta();
+        }
+    }, [id]);
+
+    const fetchPlanta = async () => {
+        try {
+            setLoading(true);
+            const response = await plantaService.getById(parseInt(id!));
+            const plantaData = response.data.success ? response.data.data : response.data;
+            setPlanta(plantaData);
+            setFormData({
+                nombreComun: plantaData.nombreComun || '',
+                nombreCientifico: plantaData.nombreCientifico || '',
+                descripcion: plantaData.descripcion || '',
+                distribucion: plantaData.distribucion || '',
+                propiedades: plantaData.propiedades || '',
+                principiosActivos: plantaData.principiosActivos || '',
+                url: plantaData.url || ''
+            });
+        } catch (error) {
+            console.error('Error fetching planta:', error);
+            setErrors({ general: 'Error al cargar la planta' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!id) return;
+
+        setProcessing(true);
+        setErrors({});
+
+        try {
+            await plantaService.update(parseInt(id), formData);
+            navigate('/plantas');
+        } catch (error: any) {
+            if (error.response?.data?.errors) {
+                setErrors(error.response.data.errors);
+            } else {
+                setErrors({ general: 'Error al actualizar la planta' });
+            }
+        } finally {
+            setProcessing(false);
+        }
+    };
+
+    const handleInputChange = (field: string, value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        // Limpiar error del campo cuando el usuario empiece a escribir
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <div className="text-lg">Cargando planta...</div>
+            </div>
+        );
+    }
+
+    if (!planta) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <div className="text-lg text-red-600">Planta no encontrada</div>
+            </div>
+        );
+    }
+
+    return (
+        <PlantasLayout title={`Editar: ${planta.nombreComun}`}>
+            <Helmet>
+                <title>Editar {planta.nombreComun} - Repositorio de Plantas</title>
+            </Helmet>
+            
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div className="mb-6">
+                        <h1 className="text-2xl font-bold text-gray-800">Editar Planta: {planta.nombreComun}</h1>
+                        <p className="text-gray-600 mt-2">Modifique los campos que desee actualizar</p>
+                    </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {errors.general && (
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            {errors.general}
+                        </div>
+                    )}
+
+                    <div className="space-y-2">
+                        <label htmlFor="nombreComun" className="block text-sm font-medium text-gray-700">
+                            Nombre común
+                        </label>
+                        <Input
+                            id="nombreComun"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 bg-white"
+                            placeholder="Ej: Manzanilla"
+                            value={formData.nombreComun}
+                            onChange={e => handleInputChange('nombreComun', e.target.value)}
+                        />
+                        {errors.nombreComun && (
+                            <p className="mt-1 text-sm text-red-600">{errors.nombreComun}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="nombreCientifico" className="block text-sm font-medium text-gray-700">
+                            Nombre científico
+                        </label>
+                        <Input
+                            id="nombreCientifico"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 bg-white"
+                            placeholder="Ej: Matricaria chamomilla"
+                            value={formData.nombreCientifico}
+                            onChange={e => handleInputChange('nombreCientifico', e.target.value)}
+                        />
+                        {errors.nombreCientifico && (
+                            <p className="mt-1 text-sm text-red-600">{errors.nombreCientifico}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">
+                            Descripción
+                        </label>
+                        <Textarea
+                            id="descripcion"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 min-h-[120px] text-gray-900 bg-white"
+                            placeholder="Describe las características de la planta..."
+                            value={formData.descripcion}
+                            onChange={e => handleInputChange('descripcion', e.target.value)}
+                        />
+                        {errors.descripcion && (
+                            <p className="mt-1 text-sm text-red-600">{errors.descripcion}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="distribucion" className="block text-sm font-medium text-gray-700">
+                            Distribución geográfica
+                        </label>
+                        <Input
+                            id="distribucion"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 bg-white"
+                            placeholder="Ej: Europa, Asia, Norteamérica"
+                            value={formData.distribucion}
+                            onChange={e => handleInputChange('distribucion', e.target.value)}
+                        />
+                        {errors.distribucion && (
+                            <p className="mt-1 text-sm text-red-600">{errors.distribucion}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="propiedades" className="block text-sm font-medium text-gray-700">
+                            Propiedades medicinales
+                        </label>
+                        <Textarea
+                            id="propiedades"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 min-h-[120px] text-gray-900 bg-white"
+                            placeholder="Lista las propiedades medicinales..."
+                            value={formData.propiedades}
+                            onChange={e => handleInputChange('propiedades', e.target.value)}
+                        />
+                        {errors.propiedades && (
+                            <p className="mt-1 text-sm text-red-600">{errors.propiedades}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="principiosActivos" className="block text-sm font-medium text-gray-700">
+                            Principios activos
+                        </label>
+                        <Textarea
+                            id="principiosActivos"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 min-h-[120px] text-gray-900 bg-white"
+                            placeholder="Lista los principios activos..."
+                            value={formData.principiosActivos}
+                            onChange={e => handleInputChange('principiosActivos', e.target.value)}
+                        />
+                        {errors.principiosActivos && (
+                            <p className="mt-1 text-sm text-red-600">{errors.principiosActivos}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="url" className="block text-sm font-medium text-gray-700">
+                            URL de la imagen
+                        </label>
+                        <Input
+                            id="url"
+                            type="url"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 bg-white"
+                            placeholder="https://ejemplo.com/imagen.jpg"
+                            value={formData.url}
+                            onChange={e => handleInputChange('url', e.target.value)}
+                        />
+                        {errors.url && (
+                            <p className="mt-1 text-sm text-red-600">{errors.url}</p>
+                        )}
+                    </div>
+
+                    <div className="flex justify-end space-x-4 pt-6 border-t">
+                        <Link to="/plantas" className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                            Cancelar
+                        </Link>
+                        <Button 
+                            type="submit" 
+                            disabled={processing}
+                            className="px-6 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors disabled:opacity-50" 
+                        >
+                            {processing ? 'Guardando...' : 'Guardar cambios'}
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </PlantasLayout>
+    );
+}

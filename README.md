@@ -16,7 +16,6 @@ La plataforma ofrece un catálogo digital interactivo que permite a los usuarios
 - **Información detallada**: Datos botánicos, distribución, usos tradicionales y principios activos
 - **Galería visual**: Imágenes de alta calidad para facilitar la identificación
 - **Enfoque sostenible**: Promoviendo la conservación y el cultivo responsable
-- **Rendimiento optimizado**: Experiencia de usuario fluida y tiempos de carga rápidos
 
 ## Tecnologías Utilizadas
 
@@ -37,56 +36,125 @@ La plataforma ofrece un catálogo digital interactivo que permite a los usuarios
 - **Git** para control de versiones
 - **Postman** para testing de API
 
-## Instalación
+## 🚀 Instalación y Configuración
 
-### Prerrequisitos
+### 📋 Prerrequisitos
 
-- Node.js (v18 o superior)
-- PHP (v8.1 o superior)
-- Composer
-- SQLite
+- **Node.js**: v18 o superior
+- **PHP**: v8.2 o superior
+- **Composer**: Para dependencias de PHP
+- **SQLite**: Base de datos incluida
+- **Git**: Para clonar el repositorio
 
-### Configuración del Backend
+### 🔧 Configuración del Backend (Laravel API)
 
-1. Clona el repositorio
-
+#### **Paso 1: Clonar y Navegar**
 ```bash
-git clone https://github.com/paulettemal/Proyecto-repositorio-de-plantas.git
-cd Proyecto-repositorio-de-plantas
+git clone <tu-repositorio>
+cd Proyecto-repositorio-de-plantas/backend
 ```
 
-2. Instala las dependencias
-
+#### **Paso 2: Instalar Dependencias**
 ```bash
 composer install
 ```
 
-3. Configura las variables de entorno
-
+#### **Paso 3: Configurar Variables de Entorno**
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-4. Inicia el servidor de desarrollo
+#### **Paso 4: Configurar Base de Datos**
+```bash
+# Ejecutar migraciones
+php artisan migrate
 
+# Ejecutar seeders para datos de prueba
+php artisan db:seed --class=PlantaSeeder
+php artisan db:seed --class=UserSeeder
+```
+
+#### **Paso 5: Iniciar Servidor Backend**
 ```bash
 php artisan serve
 ```
 
-### Configuración del Frontend
+**✅ Backend funcionando en:** `http://localhost:8000`
 
-1. Instala la dependencia
+### ⚛️ Configuración del Frontend (React)
 
+#### **Paso 1: Navegar al Directorio Frontend**
 ```bash
-npm i
+cd ../frontend
 ```
-2. Para iniciar aplicación
 
+#### **Paso 2: Instalar Dependencias**
+```bash
+npm install
+```
+
+#### **Paso 3: Iniciar Aplicación de Desarrollo**
 ```bash
 npm run dev
 ```
 
+**✅ Frontend funcionando en:** `http://localhost:3000`
+
+### 🔐 Usuario de Prueba
+
+Para probar la aplicación completa:
+
+- **Email**: `test@example.com`
+- **Password**: `password123`
+
+### 📱 Acceso a la Aplicación
+
+1. **Abrir navegador** en `http://localhost:3000`
+2. **Hacer login** con las credenciales de prueba
+3. **Navegar** a la sección de Plantas
+4. **Explorar** las funcionalidades CRUD
+
+## 📁 Estructura del Proyecto
+
+```
+Proyecto-repositorio-de-plantas/
+├── backend/                    # Laravel API
+│   ├── app/                   # Controladores y modelos
+│   │   ├── Http/Controllers/  # Controladores de la API
+│   │   ├── Models/            # Modelos Eloquent
+│   │   └── Policies/          # Políticas de autorización
+│   ├── routes/                # Rutas de la API
+│   ├── database/              # Migraciones y seeders
+│   ├── config/                # Configuración de Laravel
+│   └── bootstrap/             # Bootstrap de la aplicación
+├── frontend/                  # React Application
+│   ├── resources/js/          # Componentes React
+│   │   ├── components/        # Componentes UI reutilizables
+│   │   ├── pages/             # Páginas de la aplicación
+│   │   ├── services/          # Servicios de API
+│   │   └── types/             # Definiciones de TypeScript
+│   ├── resources/css/         # Estilos CSS
+│   └── public/                # Archivos públicos
+├── composer.json              # Dependencias PHP
+├── package.json               # Dependencias Node.js
+└── README.md                  # Este archivo
+```
+
+## API Endpoints
+
+### Autenticación
+- `POST /api/register` - Registro de usuario
+- `POST /api/login` - Inicio de sesión
+- `POST /api/logout` - Cerrar sesión (requiere autenticación)
+- `GET /api/user` - Obtener usuario actual (requiere autenticación)
+
+### Plantas
+- `GET /api/plantas` - Listar todas las plantas
+- `GET /api/plantas/{id}` - Obtener una planta específica
+- `POST /api/plantas` - Crear nueva planta (requiere autenticación)
+- `PUT /api/plantas/{id}` - Actualizar planta (requiere autenticación)
+- `DELETE /api/plantas/{id}` - Eliminar planta (requiere autenticación)
 
 ## Uso
 
@@ -96,9 +164,50 @@ npm run dev
 - **Buscar plantas**: Utiliza los filtros por nombre o propiedades
 - **Ver detalles**: Haz clic en cualquier planta para información completa
 - **Favoritos**: Guarda plantas de interés para acceso rápido
+- **Gestión de plantas**: Crear, editar y eliminar plantas (usuarios autenticados)
 
-## Equipo de Desarrollo
+### Usuario de Prueba
+- **Email**: `test@example.com`
+- **Password**: `password123`
+
+
+### **Testing de la API**
+```bash
+# Probar endpoints de autenticación
+curl -X POST http://localhost:8000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test User","email":"test2@example.com","password":"password123","password_confirmation":"password123"}'
+
+# Probar login
+curl -X POST http://localhost:8000/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
+
+# Probar endpoint de plantas (público)
+curl http://localhost:8000/api/plantas
+
+# Probar endpoint protegido (con token)
+curl -H "Authorization: Bearer TU_TOKEN_AQUI" \
+  http://localhost:8000/api/user
+```
+
+## 📚 Recursos Adicionales
+
+### **Documentación Oficial**
+- [Laravel 10.x](https://laravel.com/docs/10.x)
+- [React 18](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [TypeScript](https://www.typescriptlang.org/docs/)
+
+### **Herramientas de Desarrollo**
+- **Postman**: Testing de API
+- **Laravel Telescope**: Debugging de Laravel
+- **React Developer Tools**: Debugging de React
+- **Vite DevTools**: Debugging de Vite
+
+## 👥 Equipo de Desarrollo
 
 - **Isaac Criollo** - Frontend (Catálogo) & Backend (CRUD - create)
 - **Joel Guamaní** - Filtros & Backend (CRUD - edit)
 - **Paulette Maldonado** - Detalles de especie & Backend (CRUD - delete)
+

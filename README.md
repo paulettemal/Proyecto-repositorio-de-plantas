@@ -214,6 +214,8 @@ Proyecto-repositorio-de-plantas/
 - ✅ **Redirección Segura**: Vuelve a la página de inicio (welcome) después del logout
 - ✅ **Manejo de Errores**: Continúa con el logout incluso si la API falla
 - ✅ **Navegación de Regreso**: Botones para volver al inicio desde login y registro
+- ✅ **Panel de Usuario**: Panel izquierdo verde con menú desplegable para cerrar sesión
+- ✅ **Diseño Mejorado**: Fondo blanco con mejor legibilidad y colores optimizados
 
 **Páginas Funcionales:**
 - ✅ **Plantas (CRUD)**: Gestión completa de plantas con tabla profesional
